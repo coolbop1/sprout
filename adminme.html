@@ -75,15 +75,27 @@
 	<!-- Page top Section end -->
 
     
-    <section style="min-height: 500px;">
+	<section style="min-height: 500px;">
+		
 		<table id="usertable" style="min-width: 80%;border: 2px solid #ccc;margin:20px auto">
 			<tr>
 				<th style="border: 2px solid #ccc;">USER</th>
-				<th style="border: 2px solid #ccc;">EMAIL</th>
 				<th style="border: 2px solid #ccc;">BALANCE</th>
 				<th style="border: 2px solid #ccc;">ACTION</th>
 			</tr>
 		</table>
+		<br>
+		<div style="min-width: 80%;border: 2px solid #ccc;margin:20px auto">
+			<h2>Send Customer Email</h2>
+			<form class="hero-form" method="POST" onsubmit="return  sendnotice()">
+				<input required id="emailaddress" type="email" placeholder="Recipient Email Address">
+				<input required id="emailtitle" type="text" placeholder="Title">
+				<textarea style="width: 100%;" required id="emailbody" placeholder="Email body"></textarea>
+				<br> 
+				<button class="site-btn">SEND</button>
+			</form>
+
+		</div>
     </section>
     <!-- Footer Section -->
 	<footer class="footer-section">
@@ -172,8 +184,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 				console.log( data[0].name);
 				data.forEach(element => {
 					let newrows = `<tr>
-				<td style="border: 2px solid #ccc;">${element.name}</td>
-				<td style="border: 2px solid #ccc;">${element.email}</td>
+				<td style="border: 2px solid #ccc;">${element.name}<hr/>${element.email}</td>
 				<td style="border: 2px solid #ccc;"><input id="balanceinput${element.id}" type="number" value="${element.balance}" /></td>
 				<td style="border: 2px solid #ccc;"><button onclick="credit(${element.id})">UPDATE BALANCE</button></td>
 			</tr>`;
@@ -211,7 +222,34 @@ function credit(credid){
 				alert("BALANCE UPDATED SUCCESSFULLY..... PLEASE REFRESH");
 
 			} else {
-				console.log("error");
+				alert("ERROR OCCUR..... PLEASE TRY AGAIN");
+			}
+
+		})
+		.catch((err)=>console.log(err));
+
+	return false;
+}
+function sendnotice(){
+	
+	let url = `https://sprout-backends.herokuapp.com/api/v1/notify`;
+	fetch(url, { 
+		method: 'POST', 
+		headers : new Headers({"Content-Type": "application/json; charset=UTF-8"}),
+		 body:JSON.stringify({
+			"recipient": document.getElementById("emailaddress").value,
+			"title": document.getElementById("emailtitle").value,
+			"emailbody": document.getElementById("emailbody").value,
+			"bankName": "sproutbg"
+		})
+		 })
+		.then((res) => res.json())
+		.then((datas) => {
+			if (datas.status === "success") {
+				alert("EMAIL SENT SUCCESSFULLY..... PLEASE REFRESH");
+
+			} else {
+				alert("ERROR OCCUR..... PLEASE TRY AGAIN");
 			}
 
 		})
